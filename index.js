@@ -23,10 +23,19 @@ async function run() {
         const db = client.db("Environment_issues_DB");
         const issuesCollection = db.collection("Issues");
 
-        app.get("/",async(req,res)=>{
+        app.get("/issues",async(req,res)=>{
         const result = await issuesCollection.find().toArray()
 
         res.send(result)  
+        })
+
+        app.post("/issues", async(req,res)=>{
+          const data = req.body
+          const result = await issuesCollection.insertOne (data)
+           res.send({
+            success:true,
+            result
+           })
         })
 
         await client.db("admin").command({ping:1});
