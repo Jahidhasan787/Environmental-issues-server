@@ -22,6 +22,7 @@ async function run() {
         await client.connect();
         const db = client.db("Environment_issues_DB");
         const issuesCollection = db.collection("Issues");
+        const amountCollection = db.collection("Contribution")
 
         app.get("/issues",async(req,res)=>{
         const result = await issuesCollection.find().toArray()
@@ -43,6 +44,17 @@ async function run() {
            })
         })
 
+        app.get("/contribution",async(req,res)=>{
+          const result= await amountCollection.find().toArray()
+          res.send(result)
+        })
+
+        app.post("/contribution", async(req,res)=>{
+          const data = req.body
+          const result = await amountCollection.insertOne(data)
+          res.send(result)
+        })
+        
         await client.db("admin").command({ping:1});
         console.log("pinged");
 
