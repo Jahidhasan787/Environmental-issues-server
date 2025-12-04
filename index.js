@@ -45,14 +45,19 @@ async function run() {
         })
 
         app.get("/contribution",async(req,res)=>{
-          const result= await amountCollection.find().toArray()
-          res.send(result)
+          const result= await amountCollection.find().toArray();
+          res.send(result);
         })
 
         app.post("/contribution", async(req,res)=>{
           const data = req.body
           const result = await amountCollection.insertOne(data)
-          res.send(result)
+          res.send(result);
+        })
+
+        app.get("/latest-issues",async(req,res)=>{
+          const result = await issuesCollection.find().sort({date:-1}).limit(6).toArray();
+          res.send(result);
         })
         
         await client.db("admin").command({ping:1});
