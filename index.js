@@ -66,6 +66,12 @@ async function run() {
           res.send(result);
         })
 
+        app.get("/myContribution",async(req,res)=>{
+          const email = req.query.email;
+          const result = await amountCollection.find({email:email}).toArray();
+          res.send(result);
+        })
+
         app.put("/issues/:id",async(req,res)=>{
           const {id} = req.params;
           const data = req.body;
