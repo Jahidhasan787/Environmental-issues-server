@@ -65,6 +65,19 @@ async function run() {
           const result = await issuesCollection.find({email:email}).toArray();
           res.send(result);
         })
+
+        app.put("/issues/:id",async(req,res)=>{
+          const id = req.params;
+          const data = req.body;
+          const objectId = new ObjectId(id);
+          const filter = {_id: objectId}
+          const update = {
+            $set : data,
+          }
+          const result = await issuesCollection.updateOne(filter,update)
+
+          res.send(result)
+        })
         
         await client.db("admin").command({ping:1});
         console.log("pinged");
