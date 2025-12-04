@@ -59,6 +59,12 @@ async function run() {
           const result = await issuesCollection.find().sort({date:-1}).limit(6).toArray();
           res.send(result);
         })
+
+        app.get("/myIssues",async(req,res)=>{
+          const email = req.query.email;
+          const result = await issuesCollection.find({email:email}).toArray();
+          res.send(result);
+        })
         
         await client.db("admin").command({ping:1});
         console.log("pinged");
