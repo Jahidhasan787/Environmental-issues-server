@@ -67,7 +67,7 @@ async function run() {
         })
 
         app.put("/issues/:id",async(req,res)=>{
-          const id = req.params;
+          const {id} = req.params;
           const data = req.body;
           const objectId = new ObjectId(id);
           const filter = {_id: objectId}
@@ -77,6 +77,13 @@ async function run() {
           const result = await issuesCollection.updateOne(filter,update)
 
           res.send(result)
+        })
+
+        app.delete("/issues/:id", async(req,res)=>{
+          const {id} = req.params;
+          const result = issuesCollection.deleteOne({_id: new ObjectId(id)})
+
+          res.send(result);
         })
         
         await client.db("admin").command({ping:1});
