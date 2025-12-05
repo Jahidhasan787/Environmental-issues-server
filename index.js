@@ -20,7 +20,7 @@ const client = new MongoClient(uri, {
 
 async function run() {
     try{
-        await client.connect();
+        // await client.connect();
         const db = client.db("Environment_issues_DB");
         const issuesCollection = db.collection("Issues");
         const amountCollection = db.collection("Contribution")
@@ -97,7 +97,7 @@ async function run() {
           res.send(result);
         })
         
-        await client.db("admin").command({ping:1});
+        // await client.db("admin").command({ping:1});
         console.log("pinged");
 
     }
