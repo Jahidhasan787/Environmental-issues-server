@@ -20,7 +20,7 @@ const client = new MongoClient(uri, {
 
 async function run() {
     try{
-        // await client.connect();
+        await client.connect();
         const db = client.db("Environment_issues_DB");
         const issuesCollection = db.collection("Issues");
         const amountCollection = db.collection("Contribution")
@@ -92,7 +92,7 @@ async function run() {
 
         app.delete("/issues/:id", async(req,res)=>{
           const {id} = req.params;
-          const result = issuesCollection.deleteOne({_id: new ObjectId(id)})
+          const result = await issuesCollection.deleteOne({_id: new ObjectId(id)})
 
           res.send(result);
         })
