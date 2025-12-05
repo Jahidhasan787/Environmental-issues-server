@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require('cors');
+require("dotenv").config();
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const app = express();
 const port = process.env.PORT || 3000;
@@ -8,7 +9,7 @@ app.use(cors());
 app.use(express.json());
 
 
-const uri ="mongodb+srv://EnvironmentalDB:4PsDeTTgNwZqHufU@cluster0.3xhvrfl.mongodb.net/?appName=Cluster0" ;
+const uri =`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.3xhvrfl.mongodb.net/?appName=Cluster0` ;
 const client = new MongoClient(uri, {
   serverApi: {
     version: ServerApiVersion.v1,
@@ -23,6 +24,10 @@ async function run() {
         const db = client.db("Environment_issues_DB");
         const issuesCollection = db.collection("Issues");
         const amountCollection = db.collection("Contribution")
+
+        app.get("/",(req,res)=>{
+          res.send("server is running")
+        })
 
         app.get("/issues",async(req,res)=>{
         const result = await issuesCollection.find().toArray()
